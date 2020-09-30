@@ -53,7 +53,7 @@ module.exports.Login =  async ({email,password},callback) => {
 
 module.exports.Addpost =  async(req,callback) => { 
     try {
-        var posts=req.posts
+        var posts=req.body.posts
         console.log(posts);
          await Database.connectionPool.getConnection(async function(err, connection){ 
             connection.changeUser({
@@ -68,10 +68,8 @@ module.exports.Addpost =  async(req,callback) => {
                 else { 
                     var timestamp = Number(new Date());
                     var file = req.files.file.name;
-                    filename = timestamp+"-"+file.name;
-                    file.mv("./upload/image"+filename,function(err){
-                    var filepath="image/"+filename;
-                  var addpost = "INSERT INTO user (posts,photos)VALUES('"+posts+"','"+filepath+"')";
+                    filename = timestamp;
+                  var addpost = "INSERT INTO user (posts,photos)VALUES('"+posts+"','"+filename+"')";
                   connection.query(addpost, async function (err, result, fields) {
                       if (err){
                         console.log("Query  is not executed");
@@ -84,7 +82,6 @@ module.exports.Addpost =  async(req,callback) => {
                         });
                          
                       }
-                  });
                   });
                 } // end of if database is selected//////////////////////
             });//end of changeUser
@@ -100,7 +97,8 @@ module.exports.Addpost =  async(req,callback) => {
 
 module.exports.Updatepost =  async (req,callback) => {
     try {
-        var posts=req.posts
+        var posts=req.body.posts
+        var userid=req.body.userid;
          await Database.connectionPool.getConnection(async function(err, connection){ 
             connection.changeUser({
                 database : Database.databaseName
@@ -114,10 +112,8 @@ module.exports.Updatepost =  async (req,callback) => {
                 else {
                     var timestamp = Number(new Date());
                     var file = req.files.filename;
-                    filename = timestamp+"-"+file.name;
-                    file.mv("./upload"+filename,function(err){
-                    var filepath="upload/"+filename;
-                  var coursecreate = "UPDATE  USER SET ( posts='"+posts+"' AND photos='"+filepath+"')";
+                    filename = timestamp;
+                  var coursecreate = "UPDATE  user SET  posts='"+posts+"' , photos='"+filename+"' WHERE userid='"+userid+"'";
                   connection.query(coursecreate, async function (err, result, fields) {
                       if (err){
                           console.log("Query  is not executed");
@@ -130,7 +126,6 @@ module.exports.Updatepost =  async (req,callback) => {
                         }); 
                       }
                   });
-                });
                 } // end of if database is selected//////////////////////
             });//end of changeUser
             connection.release();//release the connection
@@ -146,6 +141,7 @@ module.exports.Updatepost =  async (req,callback) => {
 
 module.exports.Deletepost =  async ({},callback) => {
     try {
+        var email;
          await Database.connectionPool.getConnection(async function(err, connection){ 
               connection.changeUser({
                   database : Database.databaseName
