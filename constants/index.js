@@ -8,10 +8,21 @@ module.exports = {
         BAD_REQUEST: 'Invalid fields'
     },
     USERMESSAGE:{
-        LOGIN:'Login successfully',
+        SIGNUP:'Registration completed successfully',
+        ALREADY_REGISTER:'Email is already registered',
+        REGISTER:'You have already registered with RTA . Please try logging in. ',
         INCORRECT_PASSWORD:'Incorrect Password. Please try again',
-        ADD:'Adding your post successfully',
-        UPDATE:'Update your post successfully',
-        DELETE:'Delete your post successfully'  
+        SIGNIN:'Signin successfully',
+       
+    },
+    PROFILEMESSAGE:{
+        ADD:'Adding your details successfully',
+        UPDATE:'Update your profile successfully'
+    },
+    COURSEMESSAGE:{
+    CREATE:'Create the course detailssuccessfully',
+    NOTALLOW:'Your are not allow to create course',
+    ALLCOURSE:'Fetch all course successfully',
+    STUDENTCREATE:'Fetch student created course'
     }
 }
