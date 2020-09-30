@@ -3,70 +3,116 @@ const constants = require('../constants');
 
 var globalRes;
 
-module.exports.Signup =  async (req,res) => {
+module.exports.Login =  async (req,res) => {
     globalRes = res;
     try {
-        await userService.Signup(req.body,SignupResponse);
+        await userService.Login(req.body,loginResponse);
     }catch(error){
-        console.log('Something went wrong: Controller : Signup',error); 
+        console.log('Something went wrong: Controller : Login',error); 
     }
 }
-function SignupResponse(err, result,type) {
+function loginResponse(err, result,type) {
     let response = {...constants.defaultServerResponse};
     try {
             if(err){
                 response.message = err.message;
             }else {
                 const responseFromService =  result;
+                if(type==1){
                     response.status = 200;
-                    response.message = constants.USERMESSAGE.SIGNUP;
+                    response.message = constants.USERMESSAGE.LOGIN;
                     response.body = responseFromService;
+                }
+                else{
+                    response.status = 201;
+                    response.message = constants.USERMESSAGE.INCORRECT;
+                    response.body = responseFromService;
+                }
             }
      }catch(error){
-        console.log('Something went wrong: Controller :SignupResponse',error);
+        console.log('Something went wrong: Controller :loginResponse',error);
         response.message = error.message; 
      }
      return globalRes.status(response.status).send(response);
   }
 
 
-  
-
-  module.exports.Signin =  async (req,res) => {
+  module.exports.Addpost =  async (req,res) => {
     globalRes = res;
     try {
-        await userService.Signin(req.body,SigninResponce);
-  
+        await userService.Addpost(req,AddpostResponse);
     }catch(error){
-        console.log('Something went wrong: Controller : Signin',error); 
+        console.log('Something went wrong: Controller : Addpost',error); 
     }
 }
-
-function SigninResponce(err, result,type) {
+function AddpostResponse(err, result,type) {
     let response = {...constants.defaultServerResponse};
     try {
             if(err){
                 response.message = err.message;
             }else {
                 const responseFromService =  result;
-                if(type == 1)
-                {
                     response.status = 200;
-                    response.message = constants.USERMESSAGE.SIGNIN;
+                    response.message = constants.USERMESSAGE.ADD;
                     response.body = responseFromService;
-                }
-                else{
-                    response.status = 201;
-                    response.message = constants.USERMESSAGE.INCORRECT_PASSWORD;
+            }
+     }catch(error){
+        console.log('Something went wrong: Controller :AddpostResponse',error);
+        response.message = error.message; 
+     }
+     return globalRes.status(response.status).send(response);
+  }
+
+  module.exports.Updatepost =  async (req,res) => {
+    globalRes = res;
+    try {
+        await userService.Updatepost(req,UpdatepostResponse);
+    }catch(error){
+        console.log('Something went wrong: Controller : Updatepost',error); 
+    }
+}
+function UpdatepostResponse(err, result,type) {
+    let response = {...constants.defaultServerResponse};
+    try {
+            if(err){
+                response.message = err.message;
+            }else {
+                const responseFromService =  result;
+                    response.status = 200;
+                    response.message = constants.USERMESSAGE.UPDATE;
                     response.body = responseFromService;
-                }
                 
             }
      }catch(error){
-         console.log('Something went wrong: Controller : SigninResponce',error);
-         
-        response.message = error.message;
-       
+        console.log('Something went wrong: Controller :UpdatepostResponse',error);
+        response.message = error.message; 
+     }
+     return globalRes.status(response.status).send(response);
+  }
+
+
+  module.exports.Deletepost =  async (req,res) => {
+    globalRes = res;
+    try {
+        await userService.Deletepost(req.body,DeleteResponse);
+    }catch(error){
+        console.log('Something went wrong: Controller : Deletepost',error); 
+    }
+}
+function DeleteResponse(err, result,type) {
+    let response = {...constants.defaultServerResponse};
+    try {
+            if(err){
+                response.message = err.message;
+            }else {
+                const responseFromService =  result;
+                    response.status = 200;
+                    response.message = constants.USERMESSAGE.DELETE;
+                    response.body = responseFromService;
+            }
+     }catch(error){
+        console.log('Something went wrong: Controller :DeleteResponse',error);
+        response.message = error.message; 
      }
      return globalRes.status(response.status).send(response);
   }
