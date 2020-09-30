@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS user(userid int NOT NULL AUTO_INCREMENT,email varchar(255),password varchar(255),posts varchar(255),photos varchar(255),flag tinyint DEFAULT 0,PRIMARY KEY (userid))
